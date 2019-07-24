@@ -26,12 +26,12 @@ This repository contains the code for DCL. DCL is a work that studies the agreem
 <img src="fig/illustrator.jpg" width="800">
 </p>
 To plot the convergence paths and the corresponding z-vs-iteration curves, execute the following commands  
-```bash
-`# go to the illustrator folder
+```bash  
+# # go to the illustrator folder
 cd illustrator 
-`# generate convergence path with one of optimizers (gd, rmsprop, or adam)
+# # generate convergence path with one of optimizers (gd, rmsprop, or adam)
 python convergence_visualization.py --opt gd|rmsprop|adam
-`# generate the corresponding z-vs-iteration curves
+# # generate the corresponding z-vs-iteration curves
 plot plot_z.py
 ```
 
