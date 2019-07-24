@@ -25,7 +25,7 @@ This repository contains the code for DCL. DCL is a work that studies the agreem
 <p align="center">
 <img src="fig/illustrator.jpg" width="800">
 </p>
-To plot the convergence paths and the corresponding z-vs-iteration curves, execute the following commands
+To plot the convergence paths and the corresponding z-vs-iteration curves, execute the following commands  
 ```bash
 # go to the illustrator folder
 cd illustrator
