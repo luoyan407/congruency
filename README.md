@@ -20,8 +20,14 @@ This repository contains the code for DCL. DCL is a work that studies the agreem
 ```bash
 conda install pytorch=0.4.1 cuda80 -c pytorch
 ```
-2. [torchvision 0.2.1+](http://deepmind.github.io/torch-distributions/)
-3. [quadprog](https://pypi.org/project/quadprog/)
+2. [torchvision 0.2.1+](http://deepmind.github.io/torch-distributions/), e.g.,
+```bash
+pip install torchvision==0.2.1
+```
+3. [quadprog](https://pypi.org/project/quadprog/), i.e.,
+```bash
+pip install quadprog
+```
 4. [Tensorboard](https://pypi.org/project/tensorboardX/) (optinal)
 
 ## Illustration
