@@ -16,7 +16,10 @@ This repository contains the code for DCL. DCL is a work that studies the agreem
 
 
 ## Prerequisites
-1. [PyTorch 0.4.1](https://pytorch.org/get-started/previous-versions/)
+1. [PyTorch 0.4.1](https://pytorch.org/get-started/previous-versions/), e.g.,
+```bash
+conda install pytorch=0.4.1 cuda80 -c pytorch
+```
 2. [torchvision 0.2.1+](http://deepmind.github.io/torch-distributions/)
 3. [quadprog](https://pypi.org/project/quadprog/)
 4. [Tensorboard](https://pypi.org/project/tensorboardX/) (optinal)
