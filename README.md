@@ -26,6 +26,7 @@ pip install torchvision==0.2.1
 ```
 3. [quadprog](https://pypi.org/project/quadprog/), i.e.,
 ```bash
+pip install Cython
 pip install quadprog
 ```
 4. [Tensorboard](https://pypi.org/project/tensorboardX/) (optinal)
