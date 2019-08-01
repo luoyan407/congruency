@@ -137,7 +137,8 @@ The code for CIFAR experiment is built on [pytorch-classification](https://githu
 For training, please refer to [train_cifar.sh](train_cifar.sh).
 
 ## Pretrained Model
-The pre-trained model with DCL on ImageNet is available at a shared [Google drive](https://drive.google.com/drive/folders/1o5PSCQhoP9urM82dEQV0uwWCw1cOPblM?usp=sharing). In this folder, the statistics including 1-crop top 1 validation accuracies along epochs are recorded in the file named *stat.csv*. Specifically, the highest val accuracy is 75.93% at epoch 86.  
+### ImageNet
+The pre-trained model with DCL on ImageNet is available at a shared [Google drive](https://drive.google.com/drive/folders/1o5PSCQhoP9urM82dEQV0uwWCw1cOPblM?usp=sharing). In this folder, the statistics including 1-crop top 1 validation accuracies along epochs are recorded in the file named *stat.csv*. Specifically, the highest val accuracy is **75.93%** at epoch 86, while the mean accuracy of the baseline over 3 runs is 75.66%.  
 To load this pre-trained model, please first download the pre-trained model *model_best.pth.tar* to the created folder *data* and then run
 ```bash
 python load_pretrained.py
