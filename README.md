@@ -1,4 +1,4 @@
-# Direction Concentration Learning: Enhancing Congruency in Learning
+# Direction Concentration Learning: Enhancing Congruency in Machine Learning
 <p align="center">
   <b>Luo, Yan and Wong, Yongkang and Kankanhalli, Mohan S and Zhao, Qi</b></span>
 </p>
@@ -152,7 +152,7 @@ The pre-trained models with DCL on CIFAR-10 and CIFAR-100 are available at the s
 If you find this work or the code useful in your research, please consider citing:
 
 	@article{Luo_DCL_2019,
-	  title={Direction Concentration Learning: Enhancing Congruency in Learning},
+	  title={Direction Concentration Learning: Enhancing Congruency in Machine Learning},
 	  author={Luo, Yan and Wong, Yongkang and Kankanhalli, Mohan S and Zhao, Qi}
 	}
 
