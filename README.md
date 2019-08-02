@@ -138,11 +138,15 @@ For training, please refer to [train_cifar.sh](train_cifar.sh).
 
 ## Pretrained Model
 ### ImageNet
-The pre-trained model with DCL on ImageNet is available at a shared [Google drive](https://drive.google.com/drive/folders/1o5PSCQhoP9urM82dEQV0uwWCw1cOPblM?usp=sharing). In this folder, the statistics including 1-crop top 1 validation accuracies along epochs are recorded in the file named *stat.csv*. Specifically, the highest val accuracy is **75.93%** at epoch 86, while the mean accuracy of the baseline over 3 runs is 75.66%.  
+The pre-trained model with DCL on ImageNet is available at a shared [Google drive](https://drive.google.com/open?id=1o5PSCQhoP9urM82dEQV0uwWCw1cOPblM). In this folder, the statistics including 1-crop top 1 validation accuracies along epochs are recorded in the file named *stat.csv*. Specifically, the highest val accuracy is **75.93%** at epoch 86, while the mean accuracy of the baseline over 3 runs is 75.66%.  
 To load this pre-trained model, please first download the pre-trained model *model_best.pth.tar* to the created folder *data* and then run
 ```bash
 python load_pretrained.py
 ```
+### Tiny ImageNet
+The pre-trained model with DCL on Tiny ImageNet is available at a shared [Google drive](https://drive.google.com/open?id=1RLyQIcJ8qNqds9US-Oo2a0uQEL0t6kSZ). The lowest val top-1 error is **16.89%** while the one of the baseline is 17.34%.
+### CIFAR
+The pre-trained models with DCL on CIFAR-10 and CIFAR-100 are available at the shared [Google drive](https://drive.google.com/open?id=1PxwiR29DLIsq4CYq9YS6pEjD239gS0XG) and the shared [Google drive](https://drive.google.com/open?id=1upor9Yv_DF5KWdhbdVg3AQCbze7pEwlr), respectively. The lowest val error on CIFAR-10 is **3.33%** while the one of the baseline is 3.53%. The lowest val error on CIFAR-100 is **17.02%** while the one of the baseline is 17.30%.
 
 ## Citation
 If you find this work or the code useful in your research, please consider citing:
