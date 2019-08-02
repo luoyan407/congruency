@@ -74,9 +74,9 @@ imagenet/images
     ...
 ```
 Either you can write your own script to achive that, or use the [script](https://github.com/tensorflow/models/blob/master/research/slim/datasets/preprocess_imagenet_validation_data.py) provided in TensorFlow repo to do it.  
-Step 2: To train ResNet-50 with DCL, run  
+Step 2: We use 8 GPUs to train the models on ImageNet. To train ResNet-50 with DCL, run  
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2 python -W ignore train_imgnet.py \
+python -W ignore train_imgnet.py \
     -a resnet50 \
     --lr 0.1 \
     --lr-decay-epoch 30 \
@@ -92,7 +92,7 @@ CUDA_VISIBLE_DEVICES=0,1,2 python -W ignore train_imgnet.py \
 ```
 To train ResNet-50 (baseline), run  
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2 python -W ignore train_imgnet.py \
+python -W ignore train_imgnet.py \
     -a resnet50 \
     --lr 0.1 \
     --lr-decay-epoch 30 \
@@ -106,7 +106,7 @@ CUDA_VISIBLE_DEVICES=0,1,2 python -W ignore train_imgnet.py \
 ```
 To train ResNet-50 with GEM, run  
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2 python -W ignore train_imgnet.py \
+python -W ignore train_imgnet.py \
     -a resnet50 \
     --lr 0.1 \
     --lr-decay-epoch 30 \
