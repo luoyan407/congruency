@@ -32,7 +32,10 @@ pip install torchvision==0.2.1
 pip install Cython
 pip install quadprog
 ```
-4. [Tensorboard](https://pypi.org/project/tensorboardX/) (optinal)
+4. [TensorboardX](https://pypi.org/project/tensorboardX/) (optinal)
+```bash
+pip install tensorboardX==1.2
+```
 
 ## Illustration
 <p align="center">

@@ -352,7 +352,7 @@ def train(train_loader, model, criterion, optimizer, epoch,
             reg_net.setRawMem(inputs, targets)
 
         if use_cuda:
-            inputs, targets = inputs.cuda(), targets.cuda(async=True)
+            inputs, targets = inputs.cuda(), targets.cuda()
         inputs, targets = torch.autograd.Variable(inputs), torch.autograd.Variable(targets)
 
         if reg_net.__module__ == 'gem' and reg_net.mem_cnt > 0:
