@@ -21,7 +21,8 @@ This repository contains the code for DCL. DCL is a work that studies the agreem
 ## Prerequisites
 1. [PyTorch 0.4.1](https://pytorch.org/get-started/previous-versions/), e.g.,
 ```bash
-conda install pytorch=0.4.1 cuda80 -c pytorch
+conda install pytorch=0.4.1 cuda80 -c pytorch # for CUDA 8.0
+conda install pytorch=0.4.1 cuda90 -c pytorch # for CUDA 9.0
 ```
 2. [torchvision 0.2.1+](http://deepmind.github.io/torch-distributions/), e.g.,
 ```bash
