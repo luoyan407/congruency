@@ -30,6 +30,7 @@ pip install torchvision==0.2.1
 ```
 3. [quadprog](https://pypi.org/project/quadprog/), i.e.,
 ```bash
+pip install msgpack
 pip install Cython
 pip install quadprog
 ```
