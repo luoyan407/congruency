@@ -23,6 +23,9 @@ from PIL import Image
 
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
 
+from efficientnet_pytorch import EfficientNet
+from efficientnet_pytorch.utils import (get_model_params, BlockDecoder)
+
 import sys
 srcFolder = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'src')
 sys.path.append(srcFolder)
@@ -40,6 +43,19 @@ def parseClasses(file):
         classes.append(tokens[1])
         filenames.append(tokens[0])
     return filenames,classes
+
+def load_allimages(dir):
+    images = []
+    if not os.path.isdir(dir):
+        sys.exit(-1)
+    for root, _, fnames in sorted(os.walk(dir)):
+        for fname in sorted(fnames):
+            #if datasets.folder.is_image_file(fname):
+            if datasets.folder.has_file_allowed_extension(fname,['.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif']):
+                path = os.path.join(root, fname)
+                item = path
+                images.append(item)
+    return images
 
 class TImgNetDataset(data.Dataset):
     """Dataset wrapping images and ground truths."""
@@ -73,20 +89,6 @@ class TImgNetDataset(data.Dataset):
     def __len__(self):
         return len(self.imgs)
 
-# Models
-default_model_names = sorted(name for name in models.__dict__
-    if name.islower() and not name.startswith("__")
-    and callable(models.__dict__[name]))
-
-customized_models_names = sorted(name for name in customized_models.__dict__
-    if name.islower() and not name.startswith("__")
-    and callable(customized_models.__dict__[name]))
-
-for name in customized_models.__dict__:
-    if name.islower() and not name.startswith("__") and callable(customized_models.__dict__[name]):
-        models.__dict__[name] = customized_models.__dict__[name]
-
-model_names = default_model_names + customized_models_names
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
@@ -121,11 +123,9 @@ parser.add_argument('-c', '--checkpoint', default='checkpoint', type=str, metava
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 # Architecture
-parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet18',
-                    choices=model_names,
-                    help='model architecture: ' +
-                        ' | '.join(model_names) +
-                        ' (default: resnet18)')
+parser.add_argument('--arch', '-a', default='resnet18',
+                    type=str,
+                    help='model architecture: resnet18, resnet101, efficientnet-b1')
 parser.add_argument('--depth', type=int, default=29, help='Model depth.')
 parser.add_argument('--cardinality', type=int, default=32, help='ResNet cardinality (group).')
 parser.add_argument('--base-width', type=int, default=4, help='ResNet base width.')
@@ -146,6 +146,7 @@ parser.add_argument('--mtype', type=str, default='dcl', help='method type: basel
 parser.add_argument('--dcl_refsize', type=int, default=0, help='reference size for DCL or memory size for GEM')
 parser.add_argument('--dcl_offset', type=int, default=0, help='offset for reference initialization')
 parser.add_argument('--dcl_window', type=int, default=0, help='dcl window for updating accumulated gradient')
+parser.add_argument('--dcl_QP_margin', type=float, default=0.5, help='dcl quadratic problem margin')
 parser.add_argument('--gem_memsize', type=int, default=0, help='memory size for GEM')
 parser.add_argument('--save_err_at_epoch', type=str, default='', help='path to save errors at each epoch, if empty then nothing will be saved')
 args = parser.parse_args()
@@ -215,12 +216,17 @@ def main():
     # create model
     if args.pretrained_model:
         print("=> using pre-trained model '{}'".format(args.pretrained_model))
-        model = modelzoo[args.pretrained_model](pretrained=bool(args.use_pretrained))
+        if args.pretrained_model.startswith('efficientnet'):
+            model = EfficientNet.from_pretrained(args.pretrained_model, num_classes=args.n_classes)
+        else:
+            model = modelzoo[args.pretrained_model](pretrained=bool(args.use_pretrained))
     elif args.arch.startswith('resnext'):
         model = models.__dict__[args.arch](
                     baseWidth=args.base_width,
                     cardinality=args.cardinality,
                 )
+    elif args.arch.startswith('efficientnet'):
+        model = EfficientNet.from_pretrained(args.arch, num_classes=args.n_classes)
     else:
         print("=> creating model '{}'".format(args.arch))
         model = models.__dict__[args.arch]()
@@ -249,7 +255,7 @@ def main():
         args.dcl_refsize = 0
         reg_net = regressor.Net(classifier, optimizer_reg, ref_size=args.dcl_refsize, backendtype=modeltype)
     elif args.mtype == 'dcl':
-        reg_net = regressor.Net(classifier, optimizer_reg, ref_size=args.dcl_refsize, backendtype=modeltype, dcl_offset=args.dcl_offset, dcl_window=args.dcl_window)
+        reg_net = regressor.Net(classifier, optimizer_reg, ref_size=args.dcl_refsize, backendtype=modeltype, dcl_offset=args.dcl_offset, dcl_window=args.dcl_window, QP_margin=args.dcl_QP_margin)
     elif args.mtype == 'gem':
         reg_net = gem.Net(classifier, optimizer_reg, n_memories=args.gem_memsize, backendtype=modeltype)
 
@@ -508,15 +514,23 @@ def decomposeModel(model, n_classes):
         model_part2 = tempList[-1]
     elif type(model).__name__=='ResNet':
         tempList = list(model.children())
-        pooling = nn.MaxPool2d(kernel_size=tempList[-2].kernel_size,
-            stride=tempList[-2].stride, 
-            padding=tempList[-2].padding, 
-            ceil_mode=tempList[-2].ceil_mode)
+        if torch.__version__=='1.2.0':
+            pooling = nn.AdaptiveMaxPool2d(output_size=tempList[-2].output_size)
+        elif torch.__version__.startswith('0.4'):
+            pooling = nn.MaxPool2d(kernel_size=tempList[-2].kernel_size,
+                stride=tempList[-2].stride, 
+                padding=tempList[-2].padding, 
+                ceil_mode=tempList[-2].ceil_mode)
         model_part1 = nn.Sequential(*tempList[:-2],pooling)
         model_part2 = tempList[-1]
         if tempList[-1].out_features != n_classes:
             model_part2 = nn.Linear(in_features=tempList[-1].in_features, 
                 out_features=n_classes)
+    elif type(model).__name__.startswith('EfficientNet'):
+        in_feat = model._fc.in_features
+        model._fc = nn.Sequential()
+        model_part1 = model
+        model_part2 = nn.Linear(in_features=in_feat, out_features=n_classes)
     else:
         tempList = list(model.children())
         model_part1 = nn.Sequential(*tempList[:-1])

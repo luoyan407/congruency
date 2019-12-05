@@ -39,7 +39,11 @@ pip install msgpack
 pip install Cython
 pip install quadprog
 ```
-4. [TensorboardX](https://pypi.org/project/tensorboardX/) (optinal)
+4. [EfficientNet](https://github.com/lukemelas/EfficientNet-PyTorch) (optinal), i.e.,
+```bash
+pip install efficientnet_pytorch
+```
+5. [TensorboardX](https://pypi.org/project/tensorboardX/) (optinal)
 ```bash
 pip install tensorboardX==1.2
 ```
@@ -154,7 +158,7 @@ To load this pre-trained model, please first download the pre-trained model *mod
 python load_pretrained.py
 ```
 ### Tiny ImageNet
-The pre-trained model with DCL on Tiny ImageNet is available at a shared [Google drive](https://drive.google.com/open?id=1RLyQIcJ8qNqds9US-Oo2a0uQEL0t6kSZ). The lowest val top-1 error is **16.89%** while the one of the baseline is 17.34%.
+The pre-trained models with DCL on Tiny ImageNet are available at a shared [Google drive](https://drive.google.com/open?id=1RLyQIcJ8qNqds9US-Oo2a0uQEL0t6kSZ). The lowest val top-1 error is **16.89%** while the one of the baseline is 17.34%.
 ### CIFAR
 The pre-trained models with DCL on CIFAR-10 and CIFAR-100 are available at the shared [Google drive](https://drive.google.com/open?id=1PxwiR29DLIsq4CYq9YS6pEjD239gS0XG) and the shared [Google drive](https://drive.google.com/open?id=1upor9Yv_DF5KWdhbdVg3AQCbze7pEwlr), respectively. The lowest val error on CIFAR-10 is **3.33%** while the one of the baseline is 3.53%. The lowest val error on CIFAR-100 is **17.02%** while the one of the baseline is 17.30%.
 

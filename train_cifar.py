@@ -24,10 +24,8 @@ sys.path.append(srcFolder)
 import regressor
 import gem
 
-
-model_names = sorted(name for name in models.__dict__
-    if name.islower() and not name.startswith("__")
-    and callable(models.__dict__[name]))
+from efficientnet_pytorch import EfficientNet
+from efficientnet_pytorch.utils import (get_model_params, BlockDecoder)
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10/100 Training')
 # Datasets
@@ -60,11 +58,9 @@ parser.add_argument('-c', '--checkpoint', default='checkpoint', type=str, metava
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 # Architecture
-parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet20',
-                    choices=model_names,
-                    help='model architecture: ' +
-                        ' | '.join(model_names) +
-                        ' (default: resnet18)')
+parser.add_argument('--arch', '-a', default='efficientnet-b0',
+                    type=str,
+                    help='model architecture: resnet101, efficientnet-b1')
 parser.add_argument('--depth', type=int, default=29, help='Model depth.')
 parser.add_argument('--cardinality', type=int, default=8, help='Model cardinality (group).')
 parser.add_argument('--widen-factor', type=int, default=4, help='Widen factor. 4 -> 64, 8 -> 128, ...')
@@ -83,6 +79,7 @@ parser.add_argument('--mtype', type=str, default='dcl', help='method type: basel
 parser.add_argument('--dcl_refsize', type=int, default=0, help='reference size for DCL or memory size for GEM')
 parser.add_argument('--dcl_offset', type=int, default=0, help='offset for reference initialization')
 parser.add_argument('--dcl_window', type=int, default=0, help='dcl window for updating accumulated gradient')
+parser.add_argument('--dcl_QP_margin', type=float, default=0.5, help='dcl quadratic problem margin')
 parser.add_argument('--gem_memsize', type=int, default=0, help='memory size for GEM')
 args = parser.parse_args()
 state = {k: v for k, v in args._get_kwargs()}
@@ -113,17 +110,29 @@ def main():
 
     # Data
     print('==> Preparing dataset %s' % args.dataset)
-    transform_train = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    ])
-
-    transform_test = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    ])
+    if args.arch.startswith('efficientnet'):
+        transform_train = transforms.Compose([
+            transforms.Resize(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+        transform_test = transforms.Compose([
+            transforms.Resize(224),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+    else:
+        transform_train = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
     if args.dataset == 'cifar10':
         dataloader = datasets.CIFAR10
         num_classes = 10
@@ -167,6 +176,8 @@ def main():
                     num_classes=num_classes,
                     depth=args.depth,
                 )
+    elif args.arch.startswith('efficientnet'):
+        model = EfficientNet.from_pretrained(args.arch, num_classes=num_classes)
     else:
         model = models.__dict__[args.arch](num_classes=num_classes)
     modeltype = type(model).__name__
@@ -186,7 +197,7 @@ def main():
         args.dcl_refsize = 0
         reg_net = regressor.Net(classifier, optimizer_reg, ref_size=args.dcl_refsize, backendtype=modeltype)
     elif args.mtype == 'dcl':
-        reg_net = regressor.Net(classifier, optimizer_reg, ref_size=args.dcl_refsize, backendtype=modeltype, dcl_offset=args.dcl_offset, dcl_window=args.dcl_window)
+        reg_net = regressor.Net(classifier, optimizer_reg, ref_size=args.dcl_refsize, backendtype=modeltype, dcl_offset=args.dcl_offset, dcl_window=args.dcl_window, QP_margin=args.dcl_QP_margin)
     elif args.mtype == 'gem':
         reg_net = gem.Net(classifier, optimizer_reg, n_memories=args.gem_memsize, backendtype=modeltype)
 
@@ -378,6 +389,12 @@ def decomposeModel(model):
         tempList = list(model.children())
         model_part1 = nn.Sequential(*tempList[:-1])
         model_part2 = tempList[-1]
+    elif type(model).__name__.startswith('EfficientNet'):
+        in_feat = model._fc.in_features
+        out_feat = model._fc.out_features
+        model._fc = nn.Sequential()
+        model_part1 = model
+        model_part2 = nn.Linear(in_features=in_feat, out_features=out_feat)
     else:
         tempList = list(model.children())
         model_part1 = nn.Sequential(*tempList[:-1])
