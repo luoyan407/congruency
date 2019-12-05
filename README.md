@@ -3,7 +3,8 @@
   <b>Luo, Yan and Wong, Yongkang and Kankanhalli, Mohan S and Zhao, Qi</b></span>
 </p>
 
-This repository contains the code for DCL. DCL is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6.
+This repository contains the code for DCL in the **classification** task. For the continual learning task, please refer to this [repository](https://github.com/luoyan407/congruency_continual).
+DCL is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6.
 <p align="center">
 <img src="fig/teaser.jpg" width="400">
 </p>
@@ -23,6 +24,10 @@ This repository contains the code for DCL. DCL is a work that studies the agreem
 ```bash
 conda install pytorch=0.4.1 cuda80 -c pytorch # for CUDA 8.0
 conda install pytorch=0.4.1 cuda90 -c pytorch # for CUDA 9.0
+```
+To use [EfficientNet](https://github.com/lukemelas/EfficientNet-PyTorch) as the baseline model, it requires [PyTorch 1.1.0+](https://pytorch.org/), e.g., 
+```bash
+conda install pytorch==1.1.0 torchvision==0.3.0 cudatoolkit=10.0 -c pytorch
 ```
 2. [torchvision 0.2.1+](http://deepmind.github.io/torch-distributions/), e.g.,
 ```bash
