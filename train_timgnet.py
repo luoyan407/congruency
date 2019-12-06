@@ -514,9 +514,9 @@ def decomposeModel(model, n_classes):
         model_part2 = tempList[-1]
     elif type(model).__name__=='ResNet':
         tempList = list(model.children())
-        if torch.__version__=='1.2.0':
+        if torch.__version__.startswith('1.'):
             pooling = nn.AdaptiveMaxPool2d(output_size=tempList[-2].output_size)
-        elif torch.__version__.startswith('0.4'):
+        elif torch.__version__.startswith('0.'):
             pooling = nn.MaxPool2d(kernel_size=tempList[-2].kernel_size,
                 stride=tempList[-2].stride, 
                 padding=tempList[-2].padding, 
