@@ -4,7 +4,7 @@
 </p>
 
 This repository contains the code for DCL in the **classification** task. For the continual learning task, please refer to repository [congruency_continual](https://github.com/luoyan407/congruency_continual).<br/>
-DCL is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6.
+DCL is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
 <p align="center">
 <img src="fig/teaser.jpg" width="400">
 </p>
@@ -158,9 +158,9 @@ To load this pre-trained model, please first download the pre-trained model *mod
 python load_pretrained.py
 ```
 ### Tiny ImageNet
-The pre-trained models with DCL on Tiny ImageNet are available at a shared [Google drive](https://drive.google.com/open?id=1RLyQIcJ8qNqds9US-Oo2a0uQEL0t6kSZ). The lowest val top-1 error is **16.89%** while the one of the baseline is 17.34%.
+The pre-trained models, i.e., ResNet-101 and EfficientNet-B1, with DCL on Tiny ImageNet are available at a shared drive [ResNet_TImgNet](https://drive.google.com/open?id=1RLyQIcJ8qNqds9US-Oo2a0uQEL0t6kSZ) and [EfficientNet_TImgNet](https://drive.google.com/open?id=1Eh7y45NdjabE_il16F7VmgXMMPOGUUAp). The lowest val top-1 error is **15.61%** while the one of the baseline is 15.73%.
 ### CIFAR
-The pre-trained models with DCL on CIFAR-10 and CIFAR-100 are available at the shared [Google drive](https://drive.google.com/open?id=1PxwiR29DLIsq4CYq9YS6pEjD239gS0XG) and the shared [Google drive](https://drive.google.com/open?id=1upor9Yv_DF5KWdhbdVg3AQCbze7pEwlr), respectively. The lowest val error on CIFAR-10 is **3.33%** while the one of the baseline is 3.53%. The lowest val error on CIFAR-100 is **17.02%** while the one of the baseline is 17.30%.
+The pre-trained models, i.e., ResNeXt-29 and EfficientNet-B1, with DCL on CIFAR-10 and CIFAR-100 are available at the shared drive [ResNeXt_CIFAR10](https://drive.google.com/open?id=1PxwiR29DLIsq4CYq9YS6pEjD239gS0XG), [EfficientNet_CIFAR10](https://drive.google.com/open?id=1V7AnNQl74FeVhPtkaFArTszLNWxGNYfQ), [ResNeXt_CIFAR100](https://drive.google.com/open?id=1upor9Yv_DF5KWdhbdVg3AQCbze7pEwlr), and [EfficientNet_CIFAR100](https://drive.google.com/open?id=1RTt7PVS2-zgrZPhfWAwTxQquqV_AqrNc), respectively. The lowest val error on CIFAR-10 is **1.79%** while the one of the baseline is 1.91%. The lowest val error on CIFAR-100 is **11.65%** while the one of the baseline is 11.81%. We used dcl_margin=0.1 on CIFAR-10 and 0.3 on CIFAR-100.
 
 ## Citation
 If you find this work or the code useful in your research, please consider citing:
