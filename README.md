@@ -4,7 +4,7 @@
 </p>
 
 This repository contains the code for the **classification** task. For the continual learning task, please refer to repository [congruency_continual](https://github.com/luoyan407/congruency_continual).<br/>
-DCL is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
+DCL ([arXiv](https://arxiv.org/abs/1912.08136)) is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
 <p align="center">
 <img src="fig/teaser.jpg" width="400">
 </p>
