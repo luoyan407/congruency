@@ -4,10 +4,21 @@
 </p>
 
 This repository contains the code for the **classification** task. For the continual learning task, please refer to repository [congruency_continual](https://github.com/luoyan407/congruency_continual).<br/>
-DCL ([arXiv](https://arxiv.org/abs/1912.08136)) is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
+DCL ([arXiv](https://arxiv.org/abs/1912.08136), [IEEE](https://ieeexplore.ieee.org/document/8946700)) is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
 <p align="center">
 <img src="fig/teaser.jpg" width="400">
 </p>
+If you find this work or the code useful in your research, please consider citing:
+
+    @article{Luo_DCL_2019,
+        author={Y. {Luo} and Y. {Wong} and M. {Kankanhalli} and Q. {Zhao}},
+        journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+        title={Direction Concentration Learning: Enhancing Congruency in Machine Learning},
+        year={2019},
+        pages={1-1},
+        doi={10.1109/TPAMI.2019.2963387},
+        ISSN={1939-3539}
+    }
 
 # TOC
 1. [Prerequisites](#prerequisites)
@@ -16,7 +27,7 @@ DCL ([arXiv](https://arxiv.org/abs/1912.08136)) is a work that studies the agree
 4. [Training on Tiny ImageNet](#training-on-tiny-imagenet)
 5. [Training on CIFAR](#training-on-cifar)
 6. [Pretrained Model](#pretrained-model)
-7. [Citation](#citation)
+<!-- 7. [Citation](#citation) -->
 
 
 ## Prerequisites
@@ -49,6 +60,7 @@ pip install tensorboardX==1.2
 ```
 
 ## Illustration
+![](fig/gd.gif)  |  ![](fig/rmsp.gif)  |  ![](fig/adam.gif)
 <p align="center">
 <img src="fig/illustrator.jpg" width="800">
 </p>
@@ -161,19 +173,6 @@ python load_pretrained.py
 The pre-trained models, i.e., ResNet-101 and EfficientNet-B1, with DCL on Tiny ImageNet are available at a shared drive [ResNet_TImgNet](https://drive.google.com/open?id=1RLyQIcJ8qNqds9US-Oo2a0uQEL0t6kSZ) and [EfficientNet_TImgNet](https://drive.google.com/open?id=1Eh7y45NdjabE_il16F7VmgXMMPOGUUAp). The lowest val top-1 error is **15.61%** while the one of the baseline is 15.73%.
 ### CIFAR
 The pre-trained models, i.e., ResNeXt-29 and EfficientNet-B1, with DCL on CIFAR-10 and CIFAR-100 are available at the shared drive [ResNeXt_CIFAR10](https://drive.google.com/open?id=1PxwiR29DLIsq4CYq9YS6pEjD239gS0XG), [EfficientNet_CIFAR10](https://drive.google.com/open?id=1V7AnNQl74FeVhPtkaFArTszLNWxGNYfQ), [ResNeXt_CIFAR100](https://drive.google.com/open?id=1upor9Yv_DF5KWdhbdVg3AQCbze7pEwlr), and [EfficientNet_CIFAR100](https://drive.google.com/open?id=1RTt7PVS2-zgrZPhfWAwTxQquqV_AqrNc), respectively. The lowest val error on CIFAR-10 is **1.79%** while the one of the baseline is 1.91%. The lowest val error on CIFAR-100 is **11.65%** while the one of the baseline is 11.81%. We used dcl_margin=0.1 on CIFAR-10 and 0.3 on CIFAR-100.
-
-## Citation
-If you find this work or the code useful in your research, please consider citing:
-
-    @article{Luo_DCL_2019,
-        author={Y. {Luo} and Y. {Wong} and M. {Kankanhalli} and Q. {Zhao}},
-        journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
-        title={Direction Concentration Learning: Enhancing Congruency in Machine Learning},
-        year={2019},
-        pages={1-1},
-        doi={10.1109/TPAMI.2019.2963387},
-        ISSN={1939-3539}
-    }
 
 
 ## Contact
