@@ -60,7 +60,10 @@ pip install tensorboardX==1.2
 ```
 
 ## Illustration
+| GD | RMSProp | Adam |
+|:---:|:---:|:---:|
 | ![](fig/gd.gif)  |  ![](fig/rmsp.gif)  |  ![](fig/adam.gif) |
+
 <p align="center">
 <img src="fig/illustrator.jpg" width="800">
 </p>
