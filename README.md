@@ -4,7 +4,11 @@
 </p>
 
 This repository contains the code for the **classification** task. For the continual learning task, please refer to repository [congruency_continual](https://github.com/luoyan407/congruency_continual).<br/>
-DCL ([arXiv](https://arxiv.org/abs/1912.08136), [IEEE](https://ieeexplore.ieee.org/document/8946700)) is a work that studies the agreement between the learned knowledge and the new information in a learning process. The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
+DCL ([arXiv](https://arxiv.org/abs/1912.08136), [IEEE](https://ieeexplore.ieee.org/document/8946700)) is a work that studies the agreement between the learned knowledge and the new information in a learning process. <br/>
+The code is built on PyTorch, and partly based on [GEM](https://github.com/facebookresearch/GradientEpisodicMemory). It is tested under Ubuntu 1604 LTS with Python 3.6. State-of-the-art pretrained EfficientNets on CIFAR and Tiny ImageNet are included.
+| GD | RMSProp | Adam |
+|:---:|:---:|:---:|
+| ![](fig/gd.gif)  |  ![](fig/rmsp.gif)  |  ![](fig/adam.gif) |
 <p align="center">
 <img src="fig/teaser.jpg" width="400">
 </p>
@@ -60,9 +64,6 @@ pip install tensorboardX==1.2
 ```
 
 ## Illustration
-| GD | RMSProp | Adam |
-|:---:|:---:|:---:|
-| ![](fig/gd.gif)  |  ![](fig/rmsp.gif)  |  ![](fig/adam.gif) |
 
 <p align="center">
 <img src="fig/illustrator.jpg" width="800">
